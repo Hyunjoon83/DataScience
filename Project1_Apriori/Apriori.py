@@ -18,7 +18,7 @@
     - The value of support and confiddence should be rounded to two decimal places
     
 * Execution
- : python 2021088304_박현준_hw1.py 10 input.txt output.txt
+ : python Apriori.py 10 input.txt output.txt
 '''
 import sys 
 from itertools import combinations
@@ -39,7 +39,7 @@ def scanDB():
     
     while True:
         line = input_file.readline()
-        
+         
         if not line:
             break
         
@@ -48,13 +48,14 @@ def scanDB():
         for item in trx:
             item_list.append(int(item))
 
-    db_size = len(transactions)
-    total_itemset = set(item_list)
-    min_sup_freq = db_size * (min_sup / 100)
-    transactions = list_to_set(transactions)
+    db_size = len(transactions) # transaction의 개수
+    total_itemset = set(item_list) # item의 집합
+    min_sup_freq = db_size * (min_sup / 100) # min_sup의 개수
+    transactions = list_to_set(transactions) # transaction을 set으로 변환
     
     input_file.close()
 
+# 중복을 제거하기 위해 set으로 변환
 def list_to_set(item_list):
     result = []
     for item in item_list:
@@ -81,7 +82,7 @@ def get_cnt(item_set):
 def get_support(item_set):
     cnt = get_cnt(item_set)
     if cnt >= min_sup_freq: # min_sup 이상인 경우만 구함
-        return format((cnt / db_size)*100, ".2f")
+        return format((cnt / db_size) * 100, ".2f")
     else:
         return 0
 
@@ -89,13 +90,13 @@ def get_support(item_set):
 def get_confidence(item_set, associative_itemset):
     X_Y = get_cnt(union(item_set, associative_itemset))
     X = get_cnt(item_set)
-    return format((X_Y / X)*100, ".2f")
+    return format((X_Y / X) * 100, ".2f")
 
 # min_sup을 넘지 못하는 itemset을 제거하는 함수
 def Pruning(C):
     L = [] # pruning 하고 넣을 배열
     for item_set in C:
-        if get_cnt(item_set) >= min_sup_freq:
+        if get_cnt(item_set) >= min_sup_freq: # min_sup 이상인 item_set을 제외하고 pruning
             L.append(item_set)
     return L
 
@@ -120,7 +121,6 @@ def get_associative(item_set):
     global output_file
     if len(item_set) == 1:
         return
-
     # X -> Y
     X = []
     Y = []
@@ -139,16 +139,24 @@ def get_associative(item_set):
             if support == 0:
                 continue
             else:
-                line = print_output(prev) + "\t" + print_output(nxt) + "\t" + str(support) + "\t" + str(confidence) + '\n'
+                line = split_result(make_set(prev), make_set(nxt), str(support), str(confidence))
                 output_file.write(line)
 
-def print_output(s):
-    s = sorted(s) # {1,2}, {2,1}은 같은 itemset이므로 정렬
+def split_result(*line):
+    result = ""
+    for i in range(len(line)):
+        result += line[i] + "\t"
+    return result[:-1] + "\n"
+
+
+def make_set(item_set):
+    item_set = sorted(item_set) # {1,2}, {2,1}은 같은 itemset이므로 정렬
     result = "{"
-    for item in s:
+    for item in item_set:
         result += (str(item) + ",")
     return result[:-1] + "}"
 
+# main
 output_file = open(sys.argv[3], 'w')
 scanDB()
 Apriori()
