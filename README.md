@@ -1,2 +1,5 @@
-# DataScience
-HYU_ITE4005 (데이터사이언스)
+# Hanyang University _ DataScience
+
+## Professor : Dongkyu Chae
+
+### Project1 : Apriori Algorithm
