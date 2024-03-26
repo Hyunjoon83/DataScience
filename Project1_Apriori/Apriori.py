@@ -18,7 +18,7 @@
     - The value of support and confiddence should be rounded to two decimal places
     
 * Execution
- : python Apriori.py 10 input.txt output.txt
+ : python 2021088304_박현준_hw1.py 10 input.txt output.txt
 '''
 import sys 
 from itertools import combinations
@@ -82,7 +82,7 @@ def get_cnt(item_set):
 def get_support(item_set):
     cnt = get_cnt(item_set)
     if cnt >= min_sup_freq: # min_sup 이상인 경우만 구함
-        return format((cnt / db_size) * 100, ".2f")
+        return format((cnt / db_size) * 100, ".2f") 
     else:
         return 0
 
