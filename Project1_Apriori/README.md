@@ -2,32 +2,31 @@
 
 ## Files
 
-### 1. Apriori.py
+### 1. [Apriori.py](https://github.com/Hyunjoon83/DataScience/blob/main/Project1_Apriori/Apriori.py)
 
 : main_code
 
-### 2. Apriori_info.py
+![](https://github.com/Hyunjoon83/DataScience/blob/main/Project1_Apriori/Img/Apriori.png)
+
+### 2. [Apriori_info.py](https://github.com/Hyunjoon83/DataScience/blob/main/Project1_Apriori/Apriori_info.py)
 
 : code that verifies implemented code to get support and confidence value works correctly
 
-### 3. input.txt
+![](https://github.com/Hyunjoon83/DataScience/blob/main/Project1_Apriori/Img/example.png)
 
-: given input
+![](https://github.com/Hyunjoon83/DataScience/blob/main/Project1_Apriori/Img/ex_result.png)
 
-### 4. input2.txt
+### 3. [input.txt](https://github.com/Hyunjoon83/DataScience/blob/main/Project1_Apriori/input.txt) / [output.txt](https://github.com/Hyunjoon83/DataScience/blob/main/Project1_Apriori/output.txt)
 
-: input that explained in pdf (not guideline)
+: given input and result of input.txt
+* Implement : <span style="background-color:#FFE6E6">**python Apriori.py {min_sup} {input_file} {output_file}**</span>
 
-***
+  => python Apriori.py 40 input.txt output.txt
 
-## Implement
+### 4. [input2.txt](https://github.com/Hyunjoon83/DataScience/blob/main/Project1_Apriori/input2.txt) / [output2.txt](https://github.com/Hyunjoon83/DataScience/blob/main/Project1_Apriori/output2.txt)
 
-### 1. Apriori.py
+: input that explained in pdf (not guideline) and result of input2.txt
 
-python Apriori.py {min_sup} {input_file} {output_file}
-
-### 2. Apriori_info.py
-
-python Apriori_info.py {min_sup} {X} {Y}
-
-X, Y : X -> Y in association rule
+* Implement : <span style="background-color:#FFE6E6">**python Apriori_info.py {min_sup} {input_file} {X} {Y}**</span> (X, Y : X -> Y in association rule)
+  
+  => python Apriori_info.py 50 input2.txt 1 4
