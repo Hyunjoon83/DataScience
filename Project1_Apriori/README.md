@@ -27,6 +27,6 @@
 
 : input that explained in pdf (not guideline) and result of input2.txt
 
-* Implement : <span style="background-color:#FFE6E6">**python Apriori_info.py {min_sup} {input_file} {X} {Y}**</span> (X, Y : X -> Y in association rule)
+* Implement : <span style="background-color:#FFE6E6">**python Apriori_info.py {min_sup} {input_file} {X} {Y}**</span>
   
   => python Apriori_info.py 50 input2.txt 1 4
