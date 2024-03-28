@@ -32,28 +32,25 @@ total_itemset = set()
 
 # input file을 읽어서 transaction을 저장하는 함수
 def scanDB():
-    global db_size, transactions, min_sup_freq, total_itemset
+    global db_size, transactions, min_sup, min_sup_freq, total_itemset
     item_list = []
     
-    input_file = open(sys.argv[2], 'r')
-    
-    while True:
-        line = input_file.readline()
-         
-        if not line:
-            break
-        
-        trx = list(map(int,line.split())) 
-        transactions.append(trx)
-        for item in trx:
-            item_list.append(int(item))
+    try:
+        input_file = open(sys.argv[2], 'r')
+        for line in input_file:
+            trx = list(map(int, line.split()))
+            transactions.append(trx)
+            for item in trx:
+                item_list.append(int(item))
+        input_file.close()
 
-    db_size = len(transactions) # transaction의 개수
-    total_itemset = set(item_list) # item의 집합
-    min_sup_freq = db_size * (min_sup / 100) # min_sup의 개수
-    transactions = list_to_set(transactions) # transaction을 set으로 변환
-    
-    input_file.close()
+        db_size = len(transactions)
+        total_itemset = set(item_list)
+        min_sup_freq = db_size * (min_sup / 100)
+        transactions = list_to_set(transactions)
+        
+    except FileNotFoundError:
+        sys.exit(1)
 
 # 중복을 제거하기 위해 set으로 변환
 def list_to_set(item_list):
@@ -62,35 +59,27 @@ def list_to_set(item_list):
         result.append(set(item))
     return result
 
-# 두 set의 교집합을 구하는 함수
-def intersection(set1, set2):
-    return set1 & set2
-
-# 두 set의 합집합을 구하는 함수
-def union(set1, set2):
-    return set1 | set2
-
 # Transaction에 포함된 item_set의 개수를 구하는 함수
 def get_cnt(item_set):
     cnt = 0
     for trx in transactions:
-        if item_set == intersection(item_set, trx): # item_set이 trx의 부분집합인 경우
+        if item_set.issubset(trx): # item_set이 trx의 부분집합인 경우
             cnt += 1
     return cnt
 
 # transaction이 X를 포함할 확률
 def get_support(item_set):
     cnt = get_cnt(item_set)
-    if cnt >= min_sup_freq: # min_sup 이상인 경우만 구함
+    if cnt >= min_sup_freq: # min_sup 이상인 경우
         return format((cnt / db_size) * 100, ".2f") 
     else:
         return 0
 
 # X를 포함하는 transaction이 Y도 포함하고 있을 확률
 def get_confidence(item_set, associative_itemset):
-    X_Y = get_cnt(union(item_set, associative_itemset))
-    X = get_cnt(item_set)
-    return format((X_Y / X) * 100, ".2f")
+    X_Y = get_cnt(item_set.union(associative_itemset)) # X U Y
+    X = get_cnt(item_set) # X
+    return format((X_Y / X) * 100, ".2f") 
 
 # min_sup을 넘지 못하는 itemset을 제거하는 함수
 def Pruning(C):
@@ -110,58 +99,47 @@ def Apriori():
     candidate = self_join(total_itemset, k) # C_1
     while True:
         L = Pruning(candidate) # L_k
-        frequent_pattern.extend(L) 
-        if len(L) == 0:
+        frequent_pattern.extend(L) # frequent_pattern에 추가
+        if len(L) == 0: # frequent_pattern이 없는 경우
             break
         k += 1
         candidate = self_join(total_itemset, k) # C_k
 
 # association rule을 찾는 함수
-def get_associative(item_set):
-    global output_file
+def get_associative(item_set, output_file):
     if len(item_set) == 1:
         return
     # X -> Y
-    X = []
-    Y = []
-
     for i in range(1, len(item_set)):
-        X.extend(self_join(item_set, i)) # X의 모든 부분집합
-        Y.extend(self_join(item_set, i)) # Y의 모든 부분집합
-    
-    for prev in X:
-        for nxt in Y:
-            union_set = union(prev, nxt) # X U Y
-            
-            support = get_support(union_set) # P(X U Y) 
-            confidence = get_confidence(prev, nxt) # P(Y|X)
+        for prev in self_join(item_set, i): # X
+            next_items = item_set.difference(prev) # Y
+            support = get_support(prev.union(next_items)) # P(X U Y)
+            confidence = get_confidence(set(prev), next_items) # P(Y|X)
             
             if support == 0:
                 continue
             else:
-                line = split_result(make_set(prev), make_set(nxt), str(support), str(confidence))
+                line = split_result(make_itemset(set(prev)), make_itemset(next_items), str(support), str(confidence))
                 output_file.write(line)
 
-def split_result(*line):
-    result = ""
-    for i in range(len(line)):
-        result += line[i] + "\t"
-    return result[:-1] + "\n"
 
+def split_result(item_set, associative_item_set, support, confidence):
+    return f"{{{item_set}}}\t{{{associative_item_set}}}\t{support}\t{confidence}\n"
 
-def make_set(item_set):
+def make_itemset(item_set):
     item_set = sorted(item_set) # {1,2}, {2,1}은 같은 itemset이므로 정렬
-    result = "{"
-    for item in item_set:
-        result += (str(item) + ",")
-    return result[:-1] + "}"
+    return ",".join(map(str, item_set))
 
 # main
-output_file = open(sys.argv[3], 'w')
-scanDB()
-Apriori()
+def main():
+    output_file = open(sys.argv[3], 'w')
+    scanDB()
+    Apriori()
 
-for item_set in frequent_pattern:
-    get_associative(item_set)
+    for item_set in frequent_pattern:
+        get_associative(item_set, output_file)
 
-output_file.close()
+    output_file.close()
+
+if __name__ == "__main__":
+    main()
