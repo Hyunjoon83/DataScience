@@ -19,7 +19,7 @@
 ### 3. [input.txt](https://github.com/Hyunjoon83/DataScience/blob/main/Project1_Apriori/input.txt) / [output.txt](https://github.com/Hyunjoon83/DataScience/blob/main/Project1_Apriori/output.txt)
 
 : given input and result of input.txt
-* Implement : <span style="background-color:#FFE6E6">**python Apriori.py {min_sup} {input_file} {output_file}**</span>
+* Implement : <ins><span style="background-color:#FFE6E6">**python Apriori.py {min_sup} {input_file} {output_file}**</span></ins>
 
   => python Apriori.py 40 input.txt output.txt
 
@@ -27,6 +27,6 @@
 
 : input that explained in pdf (not guideline) and result of input2.txt
 
-* Implement : <span style="background-color:#FFE6E6">**python Apriori_info.py {min_sup} {input_file} {X} {Y}**</span>
+* Implement : <ins><span style="background-color:#FFE6E6">**python Apriori_info.py {min_sup} {input_file} {X} {Y}**</span></ins>
   
   => python Apriori_info.py 50 input2.txt 1 4
