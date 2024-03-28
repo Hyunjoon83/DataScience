@@ -1,25 +1,3 @@
-'''
-# Programming Assignment 1
-
-* Goal : To find association rules using Apriori algorithm
-    - Step1 : find frequent itemsets using Apriori
-    - Step2 : for each frequent itemset, find association rules
-    
-* input.txt
-    - Each line : transaction
-    - item_id = numerical value
-    - no duplication of items in each transaction
-
-* output.txt
-    - {item_set} -> {associative_item_set}
-    - Use braces ({}) to represent item sets
-    - Support : probability that a transaction contains {item_set} U {associative_item_set}
-    - Confidence : conditional probability that a transaction having {item_set} also contains {associative_item_set}
-    - The value of support and confiddence should be rounded to two decimal places
-    
-* Execution
- : python 2021088304_박현준_hw1.py 10 input.txt output.txt
-'''
 import sys 
 from itertools import combinations
 
