@@ -6,15 +6,15 @@
 
 : main_code
 
-![](https://github.com/Hyunjoon83/DataScience/blob/main/Project1_Apriori/Img/Apriori.png)
+![1](https://github.com/Hyunjoon83/DataScience/blob/main/Project1_Apriori/Img/Apriori.png)
 
 ### 2. [Apriori_info.py](https://github.com/Hyunjoon83/DataScience/blob/main/Project1_Apriori/Apriori_info.py)
 
 : code that verifies implemented code to get support and confidence value works correctly
 
-![](https://github.com/Hyunjoon83/DataScience/blob/main/Project1_Apriori/Img/example.png)
+![2](https://github.com/Hyunjoon83/DataScience/blob/main/Project1_Apriori/Img/example.png)
 
-![](https://github.com/Hyunjoon83/DataScience/blob/main/Project1_Apriori/Img/ex_result.png)
+![3](https://github.com/Hyunjoon83/DataScience/blob/main/Project1_Apriori/Img/ex_result.png)
 
 ### 3. [input.txt](https://github.com/Hyunjoon83/DataScience/blob/main/Project1_Apriori/input.txt) / [output.txt](https://github.com/Hyunjoon83/DataScience/blob/main/Project1_Apriori/output.txt)
 
