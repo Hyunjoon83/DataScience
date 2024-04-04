@@ -35,26 +35,37 @@ def list_to_set(item_list):
 
 # Transaction에 포함된 item_set의 개수를 구하는 함수
 def get_cnt(item_set):
-    return sum(1 for trx in transactions if item_set.issubset(trx))
+    cnt = 0
+    for trx in transactions:
+        if item_set.issubset(trx):
+            cnt += 1
+    return cnt
 
 # transaction이 X를 포함할 확률
 def get_support(item_set):
     cnt = get_cnt(item_set)
-    return format((cnt / db_size) * 100, ".2f") if cnt >= min_sup_freq else '0'
-
+    if cnt >= min_sup_freq:
+        return format((cnt / db_size) * 100, ".2f")
+    else:
+        return '0'
+    
 # X를 포함하는 transaction이 Y도 포함하고 있을 확률
 def get_confidence(item_set, associative_itemset):
     X_Y = get_cnt(item_set.union(associative_itemset)) # X U Y
     X = get_cnt(item_set) # X
     # division by zero 방지
-    if X == 0:
-        return '0'
-    else:
+    if X != 0:
         return format((X_Y / X) * 100, ".2f") 
+    else:
+        return '0'
 
 # min_sup을 넘지 못하는 itemset을 제거하는 함수
 def Pruning(C):
-    return [item_set for item_set in C if get_cnt(item_set) >= min_sup_freq]
+    L = []
+    for item_set in C:
+        if get_cnt(item_set) >= min_sup_freq:
+            L.append(item_set)
+    return L
 
 # k개의 item으로 이루어진 모든 itemset을 생성
 def self_join(itemset, k):
@@ -81,7 +92,7 @@ def split_result(item_set, associative_item_set, support, confidence):
     return f"{{{item_set}}}\t{{{associative_item_set}}}\t{support}\t{confidence}\n"
 
 def make_itemset(item_set):
-    return ",".join(map(str, sorted(item_set))) # 정렬 후 문자열로 변환
+    return ",".join(map(str, sorted(item_set)))
 
 # main
 def main():
