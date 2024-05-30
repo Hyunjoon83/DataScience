@@ -13,8 +13,8 @@
   
 - $Gain(A) = Info(D) - Info_A(D)$
 
-  <Code>
-    
+#### Code
+
 ```python
 def Info(self, D):
     entropy = 0
@@ -44,9 +44,36 @@ def Gain(self, D, A):
     return self.Info(D) - self.Info_A(D, A)
 ```
 
+
 ### C4.5
+
 - $SplitInfo_A(D) = -\Sigma_{j=1}^v{{|D_j|}\over{|D|}}log_2({{|D_j|}\over{|D|}})$
-- $GainRatio(A) = Gain(A) / SplitINfo_A(D)$
+
+- $GainRatio(A) = Gain(A) / SplitInfo_A(D)$
+
+#### Code
+```python
+def SplitInfo(self, D, A):
+    result = 0
+    attribute_values = np.unique(D.T[A])
+    
+    for attribute in attribute_values:
+        D_j = D[D.T[A] == attribute]
+        if len(D_j) == 0:
+            result += 0
+        elif len(D_j) > 0:
+            result += (len(D_j)/len(D)) * np.log2(len(D_j)/len(D))
+    return -result
+
+
+def GainRatio(self, D, A):
+    splitInfo = self.SplitInfo(D, A)
+    Gain = self.Gain(D, A)
+    if splitInfo == 0:
+        return 0
+    elif splitInfo > 0:
+        return Gain / splitInfo
+```
 
 ## Files
 
