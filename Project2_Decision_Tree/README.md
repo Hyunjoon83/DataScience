@@ -1,4 +1,4 @@
-# Project3 : Decision Tree
+# Project2 : Decision Tree
 
 ## Decision Tree Algorithm
 
