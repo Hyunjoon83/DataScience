@@ -1,6 +1,6 @@
 # Project3 : DBSCAN
 
-#### Pseudo-Code
+## Pseudo-Code
 
 ![image](https://github.com/Hyunjoon83/DataScience/assets/141709404/c89cc49d-3170-4792-bbe5-2efa9e8da08b)
 
